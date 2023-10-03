@@ -11,6 +11,7 @@ type task struct {
 	result chan<- int
 }
 
+// 每个任务执行
 func (t *task) do() {
 	sum := 0
 	for i := t.begin; i <= t.end; i++ {
@@ -18,6 +19,8 @@ func (t *task) do() {
 	}
 	t.result <- sum
 }
+
+// MainWorker 主处理函数
 func MainWorker() {
 	taskChan := make(chan task, 10)
 	resultChan := make(chan int, 10)
@@ -27,6 +30,8 @@ func MainWorker() {
 	sum := ProcessResult(resultChan)
 	fmt.Println("sum:", sum)
 }
+
+// InitTask 任务初始化
 func InitTask(taskChan chan<- task, r chan int, p int) {
 	qu := p / 10
 	mod := p % 10
@@ -51,6 +56,8 @@ func InitTask(taskChan chan<- task, r chan int, p int) {
 	}
 	close(taskChan)
 }
+
+// DistributeTask 读取并处理任务
 func DistributeTask(taskChan <-chan task, wg *sync.WaitGroup, resultChan chan int) {
 	for v := range taskChan {
 		wg.Add(1)
@@ -59,10 +66,14 @@ func DistributeTask(taskChan <-chan task, wg *sync.WaitGroup, resultChan chan in
 	wg.Wait()
 	close(resultChan)
 }
+
+// ProcessTask 任务处理
 func ProcessTask(t task, wg *sync.WaitGroup) {
 	t.do()
 	wg.Done()
 }
+
+// ProcessResult 合并结果
 func ProcessResult(resultChan chan int) int {
 	sum := 0
 	for v := range resultChan {
