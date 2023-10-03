@@ -51,13 +51,13 @@ func InitTask(taskChan chan<- task, r chan int, p int) {
 	}
 	close(taskChan)
 }
-func DistributeTask(taskChan <-chan task, wg *sync.WaitGroup, result chan int) {
+func DistributeTask(taskChan <-chan task, wg *sync.WaitGroup, resultChan chan int) {
 	for v := range taskChan {
 		wg.Add(1)
 		go ProcessTask(v, wg)
 	}
 	wg.Wait()
-	close(result)
+	close(resultChan)
 }
 func ProcessTask(t task, wg *sync.WaitGroup) {
 	t.do()
