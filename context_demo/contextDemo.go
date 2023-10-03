@@ -19,7 +19,7 @@ func MainFunc() {
 	tm := time.Now().Add(3 * time.Second)
 	ctxb, _ := context.WithDeadline(ctxa, tm)
 	go work(ctxb, "work2")
-	// 使用WithValue包装前面的上下文对象ctxb
+	// 使用WithValue包装前面的上下文对象 ctxb
 	oc := otherContext{ctxb}
 	ctxc := context.WithValue(oc, "key", "andes,pass from main ")
 	go workWithValue(ctxc, "work3")
