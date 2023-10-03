@@ -2,7 +2,10 @@ module leetcode
 
 go 1.21
 
-require github.com/stretchr/testify v1.8.4
+require (
+	github.com/codegangsta/inject v0.0.0-20150114235600-33e0aa1cb7c0
+	github.com/stretchr/testify v1.8.4
+)
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
